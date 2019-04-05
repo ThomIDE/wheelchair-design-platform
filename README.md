@@ -1,23 +1,41 @@
 ## Context
 
-The chosen context is the zoo, a public facility that maintains a collection of animals displayed to the public. It is a leisure space that often requires visitors to travel long distances walking to explore the establishment. The zoo will then offer a wheelchair service for visitors with walking difficulties. The wheelchairs will incorporate IoT to provide an enhanced, personalized experience that focuses on wellbeing. At the same time, they will offer the zoo and wheelchair providers with relevant data to improve the zoo’s design and the wheelchair service itself.
+The chosen context is the zoo, a public facility that maintains a collection of animals displayed to the public. It is a leisure space that often requires visitors to travel long distances walking to explore the establishment. The zoo offers a wheelchair service for visitors with walking difficulties. This smart wheelchair can sense if the user gets tired and can signal this to the user and bypassers. This way someone can maybe help the user a little by pushing. This is done by sensing the distance that someone covered, and whether the user is being pushed whilst doing this. When the wheelchair senses that the user is tired, a vibrating motor will let him know, and lit up leds on the handles of the wheelchair will make bypassers aware.
 
 ## Sensors
 
 |Sensor|Variable|Usage|
 |---|---|---|
-|Beacon|Location, Time to reach location|It can determine a recommended route, based on the location of the user and his preferences/tiredness|
-|Orientation sensor|Acceleration, Aclination|Can measure the tiredness through motion of the wheelchair, and accessability of the road|
-|Heart rate sensor|Heart rate|Also gives a good indication of the tiredness of the user|
+|Orientation sensor|Rotation|Measures the amount of rotations made in order to know the total covered distance by the wheelchair|
+|Proximity sensor|Distance|To know if the wheelchair is being pushed, we check if there is someone behind the wheelchair using the proximity sensor|
 
 ## Actuators
 
-|Different outputs|Corresponding actuators|Explanation|
+|Actuator|What it shows|Explanation|
 |---|---|---|
-|Recommended route|screen|On a screen the user can see the recommended route on a map|
-|Tiredness|speaker|The wheelchair will let the user know through sound that he should rest|
-|Road accessability|LEDs|using different colors will show if a road will be easy or difficult to ride for the user|
-|Redesign of the park|-|it will provide a report on general user behaviour and paths, in order to make a good park redesign|
+|LED|Tiredness|Through LEDS on the handles the wheelchair will let bypassers know that the user could use some help since he is tired|
+|Vibrating motor|Tiredness|The vibrating motors is a way of telling the user he should take a break, since he cannot see the LEDS|
+
+## Used files
+
+dcd-hub.py: 
+This code is used to test whether the pi has a successful connection with the cloud.
+
+serial_to_dcdhub.py:
+This code is used to establish a connection between the dcd-hub and the pi. In order to do this it needs a thing-id and thing-token to access the dcd-hub. The data that is send through this connection will then be readable in grafana. 
+
+Serial_command.py:
+Used to send a command from the pi to the arduino through a serial port. 
+
+.env:
+To give this thing-id and token to the pi, a .env file which contains this data is uploaded. Since this file starts with a dot means that it is a hidden file. 
+
+Subscribe_gatt_proximity_rotation.py:
+This code is used to subscribe the pi to the Blue feather. The pi will read the data that the feather is gathering through its attached sensors and sends it to the cloud, in order to read the data in grafana. 
+
+Led_actuators.ino:
+Code that is being uploaded on the arduino and can read the signal that comes in from the pi. based on this signal being a 1 or a 0 it will light up the led strips in yellow or in green. when the ledstrips are yellow it will also enable the vibrating motors briefly. 
+
 
 ![IoT1 Exhibition](/docs/workshops/images/iot1_exhibition.jpg)
 
